@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Katalog Kendari — Jual Beli Barang Warga Kendari</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+
+<link rel="stylesheet" href="katalog.css">
+</head>
+<body>
+
+<!-- ============ SPRITE IKON ============ -->
+<svg style="display:none">
+  <symbol id="icon-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22s7-7.58 7-12.5A7 7 0 0 0 5 9.5C5 14.42 12 22 12 22Z"/>
+    <circle cx="12" cy="9.5" r="2.5"/>
+  </symbol>
+  <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="11" cy="11" r="7"/>
+    <path d="m21 21-4.3-4.3"/>
+  </symbol>
+  <symbol id="icon-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="7" height="7" rx="1.2"/>
+    <rect x="14" y="3" width="7" height="7" rx="1.2"/>
+    <rect x="3" y="14" width="7" height="7" rx="1.2"/>
+    <rect x="14" y="14" width="7" height="7" rx="1.2"/>
+  </symbol>
+  <symbol id="icon-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/>
+  </symbol>
+  <symbol id="icon-shirt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 4 4 7l2 3 2-1v11h8V9l2 1 2-3-4-3-2 2h-4L8 4Z"/>
+  </symbol>
+  <symbol id="icon-chair" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 3v9m12-9v9M6 12h12v5H6z"/>
+    <path d="M7 17v4M17 17v4"/>
+  </symbol>
+  <symbol id="icon-gem" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 3h12l3 5-9 13L3 8l3-5Z"/>
+    <path d="M3 8h18M9 3l3 5 3-5M12 8l-3 13m6-13 3 13"/>
+  </symbol>
+  <symbol id="icon-bowl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 11h18a9 6 0 0 1-18 0Z"/>
+    <path d="M7 11V5m5 6V3m5 8V6"/>
+  </symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 6l12 12M18 6 6 18"/>
+  </symbol>
+  <symbol id="icon-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="6" cy="6" r="2.3"/>
+    <circle cx="18" cy="18" r="2.3"/>
+    <path d="M6 8.3V13a4 4 0 0 0 4 4h4"/>
+  </symbol>
+  <symbol id="icon-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="9" cy="20" r="1.4"/>
+    <circle cx="18" cy="20" r="1.4"/>
+    <path d="M2.5 3h2.4l2.1 11.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.6L21.5 7H6"/>
+  </symbol>
+  <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 7h16M4 12h16M4 17h16"/>
+  </symbol>
+  <symbol id="icon-target" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="7"/>
+    <circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/>
+    <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+  </symbol>
+  <symbol id="icon-wave" viewBox="0 0 32 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <path d="M2 14c3-4 6-4 9 0s6 4 9 0 6-4 9 0"/>
+    <path d="M2 8c3-4 6-4 9 0s6 4 9 0 6-4 9 0"/>
+  </symbol>
+</svg>
+
+<!-- ============ NAVBAR ============ -->
+<header class="navbar" id="top">
+  <div class="navbar-inner">
+
+    <a class="brand" href="#top">
+      <span class="brand-mark"><svg width="22" height="14"><use href="#icon-wave"/></svg></span>
+      <span class="brand-name">Katalog Kendari</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#top">Beranda</a>
+      <a href="#katalog">Katalog</a>
+      <a href="#peta">Peta lokasi</a>
+      <a href="#tentang">Tentang</a>
+    </nav>
+
+    <div class="navbar-actions">
+      <button class="btn btn-ghost" id="btnJual" type="button">Jual barang</button>
+      <button class="nav-toggle" id="navToggle" type="button" aria-label="Buka menu">
+        <svg width="22" height="22"><use href="#icon-menu"/></svg>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-inner">
+
+    <div class="hero-text">
+      <h1>Jual beli barang warga Kendari, tanpa ongkir dari luar kota</h1>
+      <p class="hero-sub">
+        Katalog Kendari mengumpulkan barang elektronik, fashion, furnitur, sampai
+        kerajinan khas Sulawesi Tenggara dari penjual yang tinggal di kecamatanmu
+        sendiri. Cari barangnya, cek lokasi penjual di peta, lalu ambil atau
+        antar langsung.
+      </p>
+
+      <form class="search-box" id="formCari">
+        <svg width="20" height="20"><use href="#icon-search"/></svg>
+        <input
+          type="text"
+          id="pencarian"
+          placeholder="Cari nama barang, kategori, atau kecamatan..."
+          autocomplete="off"
+        >
+        <button type="submit" id="btnCari">Cari</button>
+      </form>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <strong id="statBarang">0</strong>
+          <span>barang tersedia</span>
+        </div>
+        <div class="stat">
+          <strong id="statKategori">0</strong>
+          <span>kategori</span>
+        </div>
+        <div class="stat">
+          <strong id="statLokasi">0</strong>
+          <span>kecamatan</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-art" aria-hidden="true">
+      <div class="hero-card hero-card-1">
+        <span class="hero-card-tag">Kerajinan</span>
+        <strong>Mutiara Kendari</strong>
+        <span>Kendari Barat</span>
+      </div>
+      <div class="hero-card hero-card-2">
+        <span class="hero-card-tag">Furnitur</span>
+        <strong>Kursi Kayu Jati</strong>
+        <span>Wua-Wua</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ KATALOG ============ -->
+<section class="katalog" id="katalog">
+  <div class="section-inner">
+
+    <div class="section-head">
+      <h2>Semua barang</h2>
+      <p id="infoHasil">Memuat barang...</p>
+    </div>
+
+    <div class="kategori-list" id="kategoriList">
+      <button class="kategori-btn active" data-kategori="Semua" type="button">
+        <svg width="16" height="16"><use href="#icon-grid"/></svg> Semua
+      </button>
+      <button class="kategori-btn" data-kategori="Elektronik" type="button">
+        <svg width="16" height="16"><use href="#icon-bolt"/></svg> Elektronik
+      </button>
+      <button class="kategori-btn" data-kategori="Fashion" type="button">
+        <svg width="16" height="16"><use href="#icon-shirt"/></svg> Fashion
+      </button>
+      <button class="kategori-btn" data-kategori="Furnitur" type="button">
+        <svg width="16" height="16"><use href="#icon-chair"/></svg> Furnitur
+      </button>
+      <button class="kategori-btn" data-kategori="Kerajinan" type="button">
+        <svg width="16" height="16"><use href="#icon-gem"/></svg> Kerajinan
+      </button>
+      <button class="kategori-btn" data-kategori="Kuliner" type="button">
+        <svg width="16" height="16"><use href="#icon-bowl"/></svg> Kuliner
+      </button>
+    </div>
+
+    <div class="daftar-barang" id="daftarBarang"></div>
+
+  </div>
+</section>
+
+<!-- ============ PETA ============ -->
+<section class="peta" id="peta">
+  <div class="section-inner">
+
+    <div class="section-head">
+      <h2>Peta lokasi penjual</h2>
+      <p>Semua titik di bawah ini adalah kecamatan tempat barang berada, bukan alamat rumah lengkap.</p>
+    </div>
+
+    <div class="peta-toolbar">
+      <button class="btn btn-outline" id="btnSemuaLokasi" type="button">
+        <svg width="16" height="16"><use href="#icon-grid"/></svg> Semua lokasi
+      </button>
+      <button class="btn btn-outline" id="btnLokasiSaya" type="button">
+        <svg width="16" height="16"><use href="#icon-target"/></svg> Lokasi saya
+      </button>
+    </div>
+
+    <div id="map"></div>
+
+  </div>
+</section>
+
+<!-- ============ TENTANG / CARA KERJA ============ -->
+<section class="tentang" id="tentang">
+  <div class="section-inner">
+
+    <div class="section-head">
+      <h2>Cara kerja Katalog Kendari</h2>
+      <p>Tiga langkah sederhana, tanpa perlu daftar akun untuk mulai melihat-lihat.</p>
+    </div>
+
+    <div class="langkah-list">
+      <div class="langkah">
+        <span class="langkah-nomor">1</span>
+        <h3>Cari barang</h3>
+        <p>Ketik nama barang di kolom pencarian, atau pilih salah satu kategori seperti Elektronik atau Kerajinan.</p>
+      </div>
+      <div class="langkah">
+        <span class="langkah-nomor">2</span>
+        <h3>Cek lokasi penjual</h3>
+        <p>Lihat titiknya di peta, bandingkan jaraknya dari rumahmu sebelum memutuskan.</p>
+      </div>
+      <div class="langkah">
+        <span class="langkah-nomor">3</span>
+        <h3>Beli langsung</h3>
+        <p>Tekan tombol beli untuk memproses pesanan, atau minta rute untuk datang langsung ke lokasi.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="section-inner footer-inner">
+    <div class="brand footer-brand">
+      <span class="brand-mark"><svg width="20" height="13"><use href="#icon-wave"/></svg></span>
+      <span class="brand-name">Katalog Kendari</span>
+    </div>
+    <p>Tempat warga Kendari jual beli barang bekas dan produk lokal, dari satu kecamatan ke kecamatan lain.</p>
+    <p class="footer-copy">© <span id="tahun"></span> Katalog Kendari. Situs demo, bukan layanan transaksi sungguhan.</p>
+  </div>
+</footer>
+
+<!-- ============ OVERLAY + PANEL DETAIL ============ -->
+<div class="overlay" id="overlay"></div>
+
+<aside class="panel-info" id="panelInfo">
+
+  <button class="panel-close" id="tutupPanel" type="button" aria-label="Tutup detail">
+    <svg width="20" height="20"><use href="#icon-close"/></svg>
+  </button>
+
+  <img id="panelGambar" src="" alt="">
+
+  <div class="panel-body">
+    <span class="panel-kategori" id="panelKategori"></span>
+    <h3 id="panelNama"></h3>
+    <p class="panel-lokasi" id="panelLokasi"></p>
+    <p class="panel-harga" id="panelHarga"></p>
+
+    <div class="panel-buttons">
+      <button class="btn btn-outline" id="btnRute" type="button">
+        <svg width="16" height="16"><use href="#icon-route"/></svg> Rute ke lokasi
+      </button>
+      <button class="btn btn-primary" id="btnBeliPanel" type="button">
+        <svg width="16" height="16"><use href="#icon-cart"/></svg> Beli sekarang
+      </button>
+    </div>
+  </div>
+
+</aside>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="katalog.js"></script>
+</body>
+</html>
